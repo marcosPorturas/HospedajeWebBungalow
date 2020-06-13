@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hospedaje.web.bungalow.dto.request.BungalowRequest;
-import com.hospedaje.web.bungalow.dto.response.GetBungalowResponse;
+import com.hospedaje.web.bungalow.dto.response.BungalowResponse;
 import com.hospedaje.web.bungalow.service.BungalowService;
 
 import reactor.core.publisher.Mono;
@@ -26,13 +26,13 @@ public class BungalowController {
 	BungalowService bungalowService;
 	
 	@PostMapping("/agregar")
-	public Mono<GetBungalowResponse> agregarBungalow(@RequestHeader HttpHeaders headers ,
+	public Mono<BungalowResponse> agregarBungalow(@RequestHeader HttpHeaders headers ,
 			@RequestBody BungalowRequest bungalowRequest){
 		return bungalowService.agregarBungalow(headers, bungalowRequest);
 	}
 	
 	@PutMapping("/actualizar")
-	public Mono<GetBungalowResponse> actualizarBungalow(@RequestHeader HttpHeaders headers ,
+	public Mono<BungalowResponse> actualizarBungalow(@RequestHeader HttpHeaders headers ,
 			@RequestBody BungalowRequest bungalowRequest){
 		return bungalowService.agregarBungalow(headers, bungalowRequest);
 	}

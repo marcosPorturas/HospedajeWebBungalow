@@ -1,11 +1,11 @@
-package com.hospedaje.web.bungalow.dto;
+package com.hospedaje.web.bungalow.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 @AllArgsConstructor
 @Builder
-public class BungalowDto {
+public class BungalowResponse {
 
 	private Integer idBungalow;
 	private String categoria;

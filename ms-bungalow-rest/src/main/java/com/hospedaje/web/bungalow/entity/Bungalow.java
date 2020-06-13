@@ -17,16 +17,16 @@ public class Bungalow {
 	@Id
 	private Integer idBungalow;
 	
-	@Field
+	@Field("creation_date")
 	private Date creationDate;
 	
-	@Field
+	@Field("update_date")
 	private Date updateDate;
 	
-	@Field
+	@Field("enabled")
 	private boolean enabled;
 	
-	@Field
+	@Field("bungalow_category")
 	private BungalowCategory bungalowCategory;
 
 	public Integer getIdBungalow() {
