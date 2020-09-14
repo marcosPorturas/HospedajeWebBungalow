@@ -66,6 +66,13 @@ public class BungalowServiceImplement implements BungalowService{
 				.precioDia(bungalow.getBungalowCategory().getPrecioDia())
 				.estado(bungalow.isEnabled()).build();
 	}
+
+	@Override
+	public Mono<BungalowResponse> obtenerBungalow(Integer idBungalow) {
+
+		return bungalowRepository.findById(idBungalow)
+				.map(this::bungalowConvertToDto);
+	}
 	
 
 

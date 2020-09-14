@@ -12,6 +12,7 @@ public interface BungalowService {
 	
 	Flux<BungalowResponse> listarBungalow(HttpHeaders headers);
 	Mono<BungalowResponse> agregarBungalow(HttpHeaders header,BungalowRequest bungalowRequest);
+	Mono<BungalowResponse> obtenerBungalow(Integer idBungalow);
 	
 
 }
