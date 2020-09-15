@@ -13,8 +13,10 @@ import com.hospedaje.web.bungalow.dto.request.BungalowRequest;
 import com.hospedaje.web.bungalow.dto.response.BungalowResponse;
 import com.hospedaje.web.bungalow.entity.Bungalow;
 import com.hospedaje.web.bungalow.entity.BungalowCategory;
+import com.hospedaje.web.bungalow.entity.BungalowStatus;
 import com.hospedaje.web.bungalow.repository.BungalowCategoryRepository;
 import com.hospedaje.web.bungalow.repository.BungalowRepository;
+import com.hospedaje.web.bungalow.repository.BungalowStatusRepository;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -32,6 +34,9 @@ public class BungalowServiceImplement implements BungalowService{
 	@Autowired
 	BungalowCategoryRepository bungalowCategoryRepository;
 	
+	@Autowired
+	BungalowStatusRepository bungalowStatusRepository;
+	
 	@Override
 	public Flux<BungalowResponse> listarBungalow(HttpHeaders headers) {
 		return bungalowRepository.findAll()
@@ -42,18 +47,28 @@ public class BungalowServiceImplement implements BungalowService{
 	@Override
 	public Mono<BungalowResponse> agregarBungalow(HttpHeaders header,BungalowRequest bungalowRequest) {
 		
-			return bungalowCategoryRepository.findById(bungalowRequest.getIdBungalowCategory())
-					.map(bc->Bungalow.builder()
+		Mono<BungalowCategory> singleBungalowCategory = bungalowCategoryRepository
+									.findById(bungalowRequest.getIdBungalowCategory());
+			
+		Mono<BungalowStatus> singleBungalowStatus = bungalowStatusRepository.findById(0);
+		
+		return Mono.zip(singleBungalowCategory,singleBungalowStatus)
+					.map(tupla->Bungalow.builder()
 							.idBungalow(bungalowRequest.getIdBungalow())
 							.creationDate(new Date())
 							.enabled(true)
 							.bungalowCategory(
 									BungalowCategory.builder()
-										.id(bc.getId())
-										.descripcion(bc.getDescripcion())
-										.nombre(bc.getNombre())
-										.precioDia(bc.getPrecioDia()).build()
-							).build())
+										.id(tupla.getT1().getId())
+										.descripcion(tupla.getT1().getDescripcion())
+										.nombre(tupla.getT1().getNombre())
+										.precioDia(tupla.getT1().getPrecioDia())
+										.build()
+							).bungalowStatus(BungalowStatus.builder()
+									.id(tupla.getT2().getId())
+									.description(tupla.getT2().getDescription())
+									.build())
+							.build())
 					.flatMap(bungalowRepository::save)
 					.map(this::bungalowConvertToDto);
 						
@@ -64,7 +79,9 @@ public class BungalowServiceImplement implements BungalowService{
 				.idBungalow(bungalow.getIdBungalow())
 				.categoria(bungalow.getBungalowCategory().getNombre())
 				.precioDia(bungalow.getBungalowCategory().getPrecioDia())
-				.estado(bungalow.isEnabled()).build();
+				.habilitado(bungalow.isEnabled())
+				.estado(bungalow.getBungalowStatus().getDescription())
+				.build();
 	}
 
 	@Override

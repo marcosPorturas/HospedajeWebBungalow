@@ -10,7 +10,8 @@ public class BungalowResponse {
 	private Integer idBungalow;
 	private String categoria;
 	private Double precioDia;
-	private boolean estado;
+	private boolean habilitado;
+	private String estado;
 	
 
 	public String getCategoria() {
@@ -25,17 +26,23 @@ public class BungalowResponse {
 	public void setPrecioDia(Double precioDia) {
 		this.precioDia = precioDia;
 	}
-	public boolean isEstado() {
-		return estado;
-	}
-	public void setEstado(boolean estado) {
-		this.estado = estado;
-	}
 	public Integer getIdBungalow() {
 		return idBungalow;
 	}
 	public void setIdBungalow(Integer idBungalow) {
 		this.idBungalow = idBungalow;
+	}
+	public boolean isHabilitado() {
+		return habilitado;
+	}
+	public void setHabilitado(boolean habilitado) {
+		this.habilitado = habilitado;
+	}
+	public String getEstado() {
+		return estado;
+	}
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 	
 }

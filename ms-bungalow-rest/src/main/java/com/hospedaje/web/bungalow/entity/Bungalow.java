@@ -28,6 +28,9 @@ public class Bungalow {
 	
 	@Field("bungalow_category")
 	private BungalowCategory bungalowCategory;
+	
+	@Field("bungalow_status")
+	private BungalowStatus bungalowStatus;
 
 	public Integer getIdBungalow() {
 		return idBungalow;
@@ -67,6 +70,14 @@ public class Bungalow {
 
 	public void setBungalowCategory(BungalowCategory bungalowCategory) {
 		this.bungalowCategory = bungalowCategory;
+	}
+
+	public BungalowStatus getBungalowStatus() {
+		return bungalowStatus;
+	}
+
+	public void setBungalowStatus(BungalowStatus bungalowStatus) {
+		this.bungalowStatus = bungalowStatus;
 	}
 	
 }
