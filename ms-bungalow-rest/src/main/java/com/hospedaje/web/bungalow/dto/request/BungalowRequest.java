@@ -1,10 +1,12 @@
 package com.hospedaje.web.bungalow.dto.request;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@NoArgsConstructor
 public class BungalowRequest {
 
 	

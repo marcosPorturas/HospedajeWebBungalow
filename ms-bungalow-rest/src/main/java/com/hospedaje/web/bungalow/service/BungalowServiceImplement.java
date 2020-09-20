@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.google.gson.Gson;
 import com.hospedaje.web.bungalow.dto.request.BungalowRequest;
+import com.hospedaje.web.bungalow.dto.request.BungalowUpdateRequest;
 import com.hospedaje.web.bungalow.dto.response.BungalowResponse;
 import com.hospedaje.web.bungalow.entity.Bungalow;
 import com.hospedaje.web.bungalow.entity.BungalowCategory;
@@ -88,6 +89,27 @@ public class BungalowServiceImplement implements BungalowService{
 	public Mono<BungalowResponse> obtenerBungalow(Integer idBungalow) {
 
 		return bungalowRepository.findById(idBungalow)
+				.map(this::bungalowConvertToDto);
+	}
+
+	@Override
+	public Mono<BungalowResponse> actualizarBungalow(BungalowUpdateRequest bungalowUpdateRequest) {
+		// TODO Auto-generated method stub
+		Mono<Bungalow> bungalowSingle = bungalowRepository.findById(bungalowUpdateRequest.getIdBungalow());
+		
+		Mono<BungalowStatus> bungalowStatusSingle = bungalowStatusRepository.findById(bungalowUpdateRequest.getStatus());
+		
+		Mono<BungalowCategory> bungalowCategorySingle = bungalowCategoryRepository.findById(bungalowUpdateRequest.getIdBungalowCategory()); 
+		
+		return Mono.zip(bungalowSingle,bungalowStatusSingle,bungalowCategorySingle)
+				.map(tupla->Bungalow
+						.builder()
+						.idBungalow(tupla.getT1().getIdBungalow())
+						.enabled(bungalowUpdateRequest.isEnabled())
+						.bungalowCategory(tupla.getT3())
+						.bungalowStatus(tupla.getT2())
+						.build())
+				.flatMap(bungalowRepository::save)
 				.map(this::bungalowConvertToDto);
 	}
 	
